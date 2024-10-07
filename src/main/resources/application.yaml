@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: Library WOiSI
+  datasource:
+    hikari:
+      max-lifetime: 180000
+      connection-timeout: 30000
+      idle-timeout: 30000
+      minimum-idle: 2
+      maximum-pool-size: 20
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/Library
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+        time_zone: UTC
+    show-sql: false
+
+api:
+  base-url: http://localhost:8080/
+
+app:
+  version: '@project.version@'
+  name: "@project.name@"
+  description: "@project.description@"
