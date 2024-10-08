@@ -15,4 +15,9 @@ public class Ebook extends Book {
         super(title, description, rate, isbn);
         this.fileFormat = fileFormat;
     }
+
+    @Override
+    public Ebook clone() {
+        return (Ebook) super.clone();
+    }
 }

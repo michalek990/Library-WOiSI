@@ -15,4 +15,9 @@ public class PrintedBook extends Book {
         super(title, description, rate, isbn);
         this.numberOfPages = numberOfPages;
     }
+
+    @Override
+    public PrintedBook clone() {
+        return (PrintedBook) super.clone();
+    }
 }

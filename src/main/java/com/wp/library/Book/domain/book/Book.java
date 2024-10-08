@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Book {
+public class Book implements Cloneable{
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -37,5 +37,14 @@ public class Book {
         this.description = description;
         this.rate = rate;
         this.isbn = isbn;
+    }
+
+    @Override
+    public Book clone() {
+        try {
+            return (Book) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
