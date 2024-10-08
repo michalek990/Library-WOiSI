@@ -1,6 +1,6 @@
-package com.wp.library.Library.infrastructure.jpa;
+package com.wp.library.Book.infrastructure.jpa;
 
-import com.wp.library.Library.domain.Book;
+import com.wp.library.Book.domain.book.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

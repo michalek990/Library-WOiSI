@@ -1,4 +1,4 @@
-package com.wp.library.Library.domain.contract;
+package com.wp.library.Book.domain.contract;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 @Setter
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookRequest implements Serializable {
@@ -23,9 +22,13 @@ public class BookRequest implements Serializable {
 
     @NotNull(message = "rate cannot be null")
     @JsonProperty("rate")
-    private Long rate;
+    private Integer rate;
 
     @NotNull(message = "isbn cannot be null")
     @JsonProperty("isbn")
-    private Long isbn;
+    private String isbn;
+
+    @NotNull(message = "additionalAttribute cannot be null")
+    @JsonProperty("additionalAttribute")
+    private String additionalAttribute;
 }
