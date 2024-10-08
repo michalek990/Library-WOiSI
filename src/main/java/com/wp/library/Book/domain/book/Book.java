@@ -1,4 +1,4 @@
-package com.wp.library.Library.domain;
+package com.wp.library.Book.domain.book;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +8,8 @@ import lombok.*;
         @UniqueConstraint(columnNames = "isbn")
 })
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "book_type")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,8 +27,15 @@ public class Book {
     private String description;
 
     @Column(name = "rate", nullable = false)
-    private int rate;
+    private Integer rate;
 
     @Column(name = "isbn", nullable = false)
-    private Long isbn;
+    private String isbn;
+
+    public Book(String title, String description, Integer rate, String isbn) {
+        this.title = title;
+        this.description = description;
+        this.rate = rate;
+        this.isbn = isbn;
+    }
 }

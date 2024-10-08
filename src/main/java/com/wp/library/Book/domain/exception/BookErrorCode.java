@@ -1,4 +1,4 @@
-package com.wp.library.Library.domain.exception;
+package com.wp.library.Book.domain.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

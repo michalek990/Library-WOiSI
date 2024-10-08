@@ -1,4 +1,4 @@
-package com.wp.library.Library.domain.contract;
+package com.wp.library.Book.domain.contract;
 
 public record BookResponse(String result) {
 
