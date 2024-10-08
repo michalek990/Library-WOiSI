@@ -6,7 +6,13 @@ import com.wp.library.Book.domain.book.Ebook;
 import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
+import com.wp.library.Book.domain.contract.ExportBookRequest;
+import com.wp.library.Book.domain.contract.ExportBookResponse;
 import com.wp.library.Book.infrastructure.jpa.BookJpaRepository;
+import com.wp.library.shared.exporter.DataExporter;
+import com.wp.library.shared.exporter.ExporterFactory;
+import com.wp.library.shared.exporter.ExporterType;
+import com.wp.library.shared.exporter.FileExporter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -58,5 +64,22 @@ public class BookService implements BookAdapter {
 
         bookJpaRepository.save(printedBook);
         return BookResponse.success();
+    }
+
+    @Override
+    public ExportBookResponse exportBook(ExportBookRequest request) {
+        DataExporter exporter = new FileExporter();
+
+        for (ExporterType type: request.getFormats()) {
+            exporter = ExporterFactory.of(type, exporter);
+        }
+
+        byte[] content = exporter.export(bookJpaRepository.findAll());
+        String fileName = String.join(".", "books", exporter.fileExtension());
+
+        return ExportBookResponse.builder()
+                .content(content)
+                .fileName(fileName)
+                .build();
     }
 }
