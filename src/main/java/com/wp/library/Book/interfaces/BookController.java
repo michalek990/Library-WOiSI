@@ -1,5 +1,7 @@
 package com.wp.library.Book.interfaces;
 
+import com.wp.library.Book.domain.book.Ebook;
+import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
@@ -22,20 +24,30 @@ public class BookController implements BookResource {
     private final BookService bookService;
 
     @Override
-    public BookResponse crateBook(@RequestBody BookRequest request) {
+    public BookResponse createBook(@RequestBody BookRequest request) {
         return bookService.createBook(request);
     }
 
     @Override
-    public BookResponse crateEbook(@RequestBody BookRequest request) {
+    public BookResponse createEbook(@RequestBody BookRequest request) {
         return bookService.createEbook(request);
     }
 
     @Override
-    public BookResponse cratePrintedBook(@RequestBody BookRequest request) {
+    public BookResponse createPrintedBook(@RequestBody BookRequest request) {
         return bookService.createPrintedBook(request);
     }
 
+    @Override
+    public BookResponse createCloneEbook(@RequestBody BookRequest request, Long existingEBookId) {
+        return bookService.createCloneEbook(request, existingEBookId);
+    }
+
+    @Override
+    public BookResponse createClonePrintedBook(@RequestBody BookRequest request, Long existingPrintedBookId) {
+        return bookService.createClonePrintedBook(request, existingPrintedBookId);
+    }
+  
     @Override
     public ResponseEntity<byte[]> exportBooks(ExportBookRequest request) {
         ExportBookResponse response = bookService.exportBook(request);

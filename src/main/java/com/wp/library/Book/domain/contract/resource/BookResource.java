@@ -1,5 +1,7 @@
 package com.wp.library.Book.domain.contract.resource;
 
+import com.wp.library.Book.domain.book.Ebook;
+import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
@@ -23,6 +25,8 @@ public interface BookResource {
 
     String EBOOK_URL = "/ebook";
     String PRINTED_BOOK = "/printed-book";
+    String CLONE_EBOOK_URL = "/clone/ebook";
+    String CLONE_PRINTED_URL = "/clone/printed-book";
     String EXPORT_BOOKS = "/export-books";
 
     String JSON = MediaType.APPLICATION_JSON_VALUE;
@@ -44,7 +48,7 @@ public interface BookResource {
                     description = "Internal server error",
                     content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
     })
-    BookResponse crateBook(@Valid BookRequest request);
+    BookResponse createBook(@Valid BookRequest request);
 
     @PostMapping(EBOOK_URL)
     @ResponseStatus(HttpStatus.OK)
@@ -63,7 +67,7 @@ public interface BookResource {
                     description = "Internal server error",
                     content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
     })
-    BookResponse crateEbook(@Valid BookRequest request);
+    BookResponse createEbook(@Valid BookRequest request);
 
     @PostMapping(PRINTED_BOOK)
     @ResponseStatus(HttpStatus.OK)
@@ -82,8 +86,46 @@ public interface BookResource {
                     description = "Internal server error",
                     content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
     })
-    BookResponse cratePrintedBook(@Valid BookRequest request);
+    BookResponse createPrintedBook(@Valid BookRequest request);
 
+  @PostMapping(CLONE_EBOOK_URL)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Create new clone of ebook")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successful creating new clone of ebook",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = BookResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authentication failed",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    BookResponse createCloneEbook(@Valid BookRequest request, Long existingEBookId);
+
+    @PostMapping(CLONE_PRINTED_URL)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Create new clone of printed book")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successful creating new clone of printed book",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = BookResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authentication failed",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    BookResponse createClonePrintedBook(@Valid BookRequest request, Long existingPrintedBookId);
+              
     @GetMapping(EXPORT_BOOKS)
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Exports books to file")

@@ -7,12 +7,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("PRINTED")
 @NoArgsConstructor
-public class PrintedBook extends Book {
+public class PrintedBook extends Book implements Cloneable{
 
     private Integer numberOfPages;
 
     public PrintedBook(String title, String description, Integer rate, String isbn, Integer numberOfPages) {
         super(title, description, rate, isbn);
         this.numberOfPages = numberOfPages;
+    }
+
+    @Override
+    public PrintedBook clone() {
+        return (PrintedBook) super.clone();
     }
 }
