@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("PRINTED")
 @NoArgsConstructor
-public class PrintedBook extends Book {
+public class PrintedBook extends Book implements Cloneable{
 
     private Integer numberOfPages;
 

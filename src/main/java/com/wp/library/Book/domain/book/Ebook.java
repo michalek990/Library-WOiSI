@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("EBOOK")
 @NoArgsConstructor
-public class Ebook extends Book {
+public class Ebook extends Book implements Cloneable{
 
     private String fileFormat;
 
