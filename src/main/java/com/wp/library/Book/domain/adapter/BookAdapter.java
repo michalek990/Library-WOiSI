@@ -5,6 +5,8 @@ import com.wp.library.Book.domain.book.Ebook;
 import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
+import com.wp.library.Book.domain.contract.ExportBookRequest;
+import com.wp.library.Book.domain.contract.ExportBookResponse;
 
 public interface BookAdapter {
 
@@ -13,4 +15,5 @@ public interface BookAdapter {
     BookResponse createPrintedBook(BookRequest request);
     BookResponse createCloneEbook(BookRequest request, Long existingEBookId);
     BookResponse createClonePrintedBook(BookRequest request, Long existingPrintedBookId);
+    ExportBookResponse exportBook(ExportBookRequest request);
 }
