@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Book implements Cloneable{
+public class Book implements Cloneable {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
