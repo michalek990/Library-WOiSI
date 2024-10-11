@@ -92,21 +92,4 @@ class BookService implements BookAdapter {
         bookJpaRepository.save(printedBook);
         return BookResponse.success();
     }
-
-    @Override
-    public ExportBookResponse exportBook(ExportBookRequest request) {
-        DataExporter exporter = new FileExporter();
-
-        for (ExporterType type: request.getFormats()) {
-            exporter = ExporterFactory.of(type, exporter);
-        }
-
-        byte[] content = exporter.export(bookJpaRepository.findAll());
-        String fileName = String.join(".", "books", exporter.fileExtension());
-
-        return ExportBookResponse.builder()
-                .content(content)
-                .fileName(fileName)
-                .build();
-    }
 }

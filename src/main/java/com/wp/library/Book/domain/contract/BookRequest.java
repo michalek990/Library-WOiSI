@@ -31,4 +31,7 @@ public class BookRequest implements Serializable {
     @NotNull(message = "additionalAttribute cannot be null")
     @JsonProperty("additionalAttribute")
     private String additionalAttribute;
+
+    @JsonProperty("toEmail")
+    private String toMail;
 }

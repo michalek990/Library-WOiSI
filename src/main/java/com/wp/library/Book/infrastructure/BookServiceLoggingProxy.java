@@ -53,11 +53,4 @@ class BookServiceLoggingProxy implements BookAdapter {
         return response;
     }
 
-    @Override
-    public ExportBookResponse exportBook(ExportBookRequest request) {
-        log.info("Exporting book");
-        ExportBookResponse response = bookService.exportBook(request);
-        log.info("Exporting book created");
-        return response;
-    }
 }

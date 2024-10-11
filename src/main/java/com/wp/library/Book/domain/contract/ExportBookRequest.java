@@ -17,4 +17,7 @@ public class ExportBookRequest {
     @NotNull(message = "formats of exported file")
     @JsonProperty("formats")
     private ExporterType[] formats;
+
+    @JsonProperty("toMail")
+    private String toMail;
 }

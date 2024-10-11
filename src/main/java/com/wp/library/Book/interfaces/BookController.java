@@ -1,11 +1,12 @@
 package com.wp.library.Book.interfaces;
 
-import com.wp.library.Book.domain.adapter.BookAdapter;
+import com.wp.library.Book.domain.constants.BookType;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
 import com.wp.library.Book.domain.contract.ExportBookResponse;
 import com.wp.library.Book.domain.contract.resource.BookResource;
+import com.wp.library.Book.infrastructure.LibraryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -18,36 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class BookController implements BookResource {
-    private final BookAdapter bookAdapter;
+
+    private final LibraryService libraryService;
 
     @Override
     public BookResponse createBook(@RequestBody BookRequest request) {
-        return bookAdapter.createBook(request);
+        return libraryService.createBook(request, BookType.GENERIC_BOOK);
     }
 
     @Override
     public BookResponse createEbook(@RequestBody BookRequest request) {
-        return bookAdapter.createEbook(request);
+        return libraryService.createBook(request, BookType.EBOOK);
     }
 
     @Override
     public BookResponse createPrintedBook(@RequestBody BookRequest request) {
-        return bookAdapter.createPrintedBook(request);
+        return libraryService.createBook(request,BookType.PRINTED_BOOK);
     }
 
     @Override
     public BookResponse createCloneEbook(@RequestBody BookRequest request, Long existingEBookId) {
-        return bookAdapter.createCloneEbook(request, existingEBookId);
+        return libraryService.cloneBook(request, existingEBookId, BookType.EBOOK);
     }
 
     @Override
     public BookResponse createClonePrintedBook(@RequestBody BookRequest request, Long existingPrintedBookId) {
-        return bookAdapter.createClonePrintedBook(request, existingPrintedBookId);
+        return libraryService.cloneBook(request, existingPrintedBookId, BookType.PRINTED_BOOK);
     }
   
     @Override
     public ResponseEntity<byte[]> exportBooks(ExportBookRequest request) {
-        ExportBookResponse response = bookAdapter.exportBook(request);
+        ExportBookResponse response = libraryService.exportBook(request);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + response.fileName())
