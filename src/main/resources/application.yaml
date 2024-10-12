@@ -1,6 +1,17 @@
 spring:
   application:
     name: Library WOiSI
+  mail:
+    host:
+    port:
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     hikari:
       max-lifetime: 180000

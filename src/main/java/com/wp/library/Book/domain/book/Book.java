@@ -10,7 +10,6 @@ import lombok.*;
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "book_type")
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book implements Cloneable {
@@ -39,6 +38,7 @@ public class Book implements Cloneable {
         this.isbn = isbn;
     }
 
+
     @Override
     public Book clone() {
         try {
@@ -46,5 +46,52 @@ public class Book implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public static BookBuilder builder() {
+        return new BookBuilder();
+    }
+
+
+    public static class BookBuilder {
+
+        private Long id;
+        private String title;
+        private String description;
+        private Integer rate;
+        private String isbn;
+
+        BookBuilder() {
+        }
+
+        public BookBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public BookBuilder title(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public BookBuilder description(final String description) {
+            this.description = description;
+            return this;
+        }
+
+        public BookBuilder rate(final Integer rate) {
+            this.rate = rate;
+            return this;
+        }
+
+        public BookBuilder isbn(final String isbn) {
+            this.isbn = isbn;
+            return this;
+        }
+
+        public Book build() {
+            return new Book(this.id, this.title, this.description, this.rate, this.isbn);
+        }
+
     }
 }

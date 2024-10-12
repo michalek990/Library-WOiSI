@@ -11,5 +11,4 @@ public interface BookAdapter {
     BookResponse createPrintedBook(BookRequest request);
     BookResponse createCloneEbook(BookRequest request, Long existingEBookId);
     BookResponse createClonePrintedBook(BookRequest request, Long existingPrintedBookId);
-    ExportBookResponse exportBook(ExportBookRequest request);
 }
