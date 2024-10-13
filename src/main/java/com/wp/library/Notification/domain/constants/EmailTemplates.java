@@ -1,4 +1,4 @@
-package com.wp.library.Notification.constants;
+package com.wp.library.Notification.domain.constants;
 
 public final class EmailTemplates {
 
@@ -11,7 +11,6 @@ public final class EmailTemplates {
 
             The book '%s' has been successfully created with the following details:
 
-            Description: '%s'
             Thank you for using our library system!""";
 
     public static final String CLONE_BOOK_BODY = """
