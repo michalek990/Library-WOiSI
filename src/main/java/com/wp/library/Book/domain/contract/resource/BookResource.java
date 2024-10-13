@@ -1,7 +1,5 @@
 package com.wp.library.Book.domain.contract.resource;
 
-import com.wp.library.Book.domain.book.Ebook;
-import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
@@ -126,7 +124,7 @@ public interface BookResource {
     })
     BookResponse createClonePrintedBook(@Valid BookRequest request, Long existingPrintedBookId);
               
-    @GetMapping(EXPORT_BOOKS)
+    @PostMapping(EXPORT_BOOKS)
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Exports books to file")
     @ApiResponses(value = {

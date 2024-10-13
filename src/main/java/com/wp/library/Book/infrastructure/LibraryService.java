@@ -7,10 +7,14 @@ import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
 import com.wp.library.Book.domain.contract.ExportBookResponse;
-import com.wp.library.Notification.NotificationService;
+import com.wp.library.Notification.infrastructure.ClonedBookNotificationService;
+import com.wp.library.Notification.infrastructure.CreatedBookNotificationService;
+import com.wp.library.Notification.infrastructure.ExportedBookNotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 @Slf4j
@@ -19,7 +23,9 @@ public class LibraryService implements LibraryAdapter {
 
     private final BookAdapter bookAdapter;
     private final ExportService exportService;
-    private final NotificationService notificationService;
+    private final CreatedBookNotificationService createdBookNotificationService;
+    private final ClonedBookNotificationService clonedBookNotificationService;
+    private final ExportedBookNotificationService exportedBookNotificationService;
 
 
     @Override
@@ -29,7 +35,7 @@ public class LibraryService implements LibraryAdapter {
             case PRINTED_BOOK -> bookAdapter.createPrintedBook(bookRequest);
             default -> bookAdapter.createBook(bookRequest);
         };
-        notificationService.sendCreatedBookEmailNotification(bookRequest);
+        createdBookNotificationService.sendNotification(bookRequest.getTitle(), bookRequest.getDescription(), bookRequest.getToMail());
         return response;
     }
 
@@ -40,13 +46,13 @@ public class LibraryService implements LibraryAdapter {
             case PRINTED_BOOK -> bookAdapter.createClonePrintedBook(request, existingBookId);
             default -> throw new UnsupportedOperationException("Unsupported book type for cloning!" + bookType);
         };
-        notificationService.sendCloningBookNotification(request);
+        clonedBookNotificationService.sendNotification(request.getTitle(), request.getDescription(), request.getToMail());
         return response;
     }
 
     @Override
     public ExportBookResponse exportBook(ExportBookRequest request){
-        notificationService.sendExportBookNotification(request);
+        exportedBookNotificationService.sendNotification(EMPTY, EMPTY, request.getToMail());
         return exportService.exportBook(request);
     }
 
