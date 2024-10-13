@@ -48,7 +48,7 @@ public class BookController implements BookResource {
     }
   
     @Override
-    public ResponseEntity<byte[]> exportBooks(ExportBookRequest request) {
+    public ResponseEntity<byte[]> exportBooks(@RequestBody ExportBookRequest request) {
         ExportBookResponse response = libraryService.exportBook(request);
 
         return ResponseEntity.ok()

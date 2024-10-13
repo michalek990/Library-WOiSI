@@ -124,7 +124,7 @@ public interface BookResource {
     })
     BookResponse createClonePrintedBook(@Valid BookRequest request, Long existingPrintedBookId);
               
-    @GetMapping(EXPORT_BOOKS)
+    @PostMapping(EXPORT_BOOKS)
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Exports books to file")
     @ApiResponses(value = {

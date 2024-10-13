@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "books", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "isbn")
-})
+@Table(name = "books", schema = "public")
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "book_type")

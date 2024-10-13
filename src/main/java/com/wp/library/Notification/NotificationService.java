@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class NotificationService implements NotificationAdapter {
-
-
     private final JavaMailSender mailSender;
 
     @Value("${spring.mail.username")
@@ -47,9 +45,10 @@ public class NotificationService implements NotificationAdapter {
     }
 
     private void sendEmail(String toMail, String subject, String body) {
-        if(!isEmailValid(toMail)){
+        if(!isEmailValid(toMail)) {
             return;
         }
+
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,true);
