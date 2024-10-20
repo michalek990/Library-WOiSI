@@ -1,6 +1,8 @@
 package com.wp.library.Book.domain.contract;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wp.library.Book.domain.constants.BookSortType;
+import com.wp.library.Book.domain.constants.SortDirection;
 import com.wp.library.shared.exporter.ExporterType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,15 @@ public class ExportBookRequest {
     @JsonProperty("formats")
     private ExporterType[] formats;
 
+    @NotNull(message = "sort types")
+    @JsonProperty("sorts")
+    private SortType[] sorts;
+
     @JsonProperty("toMail")
     private String toMail;
+
+    public record SortType(
+            BookSortType sortType,
+            SortDirection direction
+    ) { }
 }
