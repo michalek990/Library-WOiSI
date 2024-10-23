@@ -29,6 +29,9 @@ public class Book implements Cloneable {
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
+    @Transient
+    private BookState state;
+
     public Book(String title, String description, Integer rate, String isbn) {
         this.title = title;
         this.description = description;
