@@ -1,12 +1,15 @@
 package com.wp.library.Book.infrastructure;
 
 import com.wp.library.Book.domain.adapter.BookAdapter;
+import com.wp.library.Book.domain.book.Book;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
 import com.wp.library.Book.domain.contract.ExportBookResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Iterator;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,6 +54,11 @@ class BookServiceLoggingProxy implements BookAdapter {
         BookResponse response = bookService.createClonePrintedBook(request, existingPrintedBookId);
         log.info("Clone printed book created");
         return response;
+    }
+
+    @Override
+    public Iterator<Book> printAllBooks() {
+        return null;
     }
 
 }
