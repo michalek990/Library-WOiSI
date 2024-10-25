@@ -29,6 +29,9 @@ public class Book implements Cloneable {
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
+    @Transient
+    private BookState state;
+
     public Book(String title, String description, Integer rate, String isbn) {
         this.title = title;
         this.description = description;
@@ -58,6 +61,7 @@ public class Book implements Cloneable {
         private String description;
         private Integer rate;
         private String isbn;
+        private BookState state;
 
         BookBuilder() {
         }
@@ -88,7 +92,7 @@ public class Book implements Cloneable {
         }
 
         public Book build() {
-            return new Book(this.id, this.title, this.description, this.rate, this.isbn);
+            return new Book(this.id, this.title, this.description, this.rate, this.isbn, this.state);
         }
 
     }

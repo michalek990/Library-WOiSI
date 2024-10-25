@@ -17,6 +17,9 @@ import com.wp.library.shared.exporter.FileExporter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Iterator;
+import java.util.List;
+
 import static com.wp.library.Book.domain.exception.BookErrorCode.EBOOK_NOT_FOUND;
 import static com.wp.library.Book.domain.exception.BookErrorCode.PRINTED_BOOK_NOT_FOUND;
 
@@ -63,6 +66,18 @@ class BookService implements BookAdapter {
         bookJpaRepository.save(clonedPrintedBook);
 
         return BookResponse.success();
+    }
+
+    @Override
+    public Iterator<Book> printAllBooks() {
+        List<Book> books = bookJpaRepository.findAll();
+
+        BookCollection collection = new BookCollection();
+        for (Book book : books) {
+            collection.addBook(book);
+        }
+
+        return collection.iterator();
     }
 
     @Override

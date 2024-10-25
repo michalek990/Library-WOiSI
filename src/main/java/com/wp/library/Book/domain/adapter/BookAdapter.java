@@ -1,9 +1,10 @@
 package com.wp.library.Book.domain.adapter;
 
+import com.wp.library.Book.domain.book.Book;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
-import com.wp.library.Book.domain.contract.ExportBookRequest;
-import com.wp.library.Book.domain.contract.ExportBookResponse;
+
+import java.util.Iterator;
 
 public interface BookAdapter {
     BookResponse createBook(BookRequest request);
@@ -11,4 +12,5 @@ public interface BookAdapter {
     BookResponse createPrintedBook(BookRequest request);
     BookResponse createCloneEbook(BookRequest request, Long existingEBookId);
     BookResponse createClonePrintedBook(BookRequest request, Long existingPrintedBookId);
+    Iterator<Book> printAllBooks();
 }
