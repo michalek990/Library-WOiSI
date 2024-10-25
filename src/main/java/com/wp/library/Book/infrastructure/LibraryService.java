@@ -53,4 +53,14 @@ public class LibraryService implements LibraryAdapter {
         return exportService.exportBook(request);
     }
 
+    @Override
+    public BookResponse editBook(BookRequest request, Long existingBookId) {
+        return bookAdapter.editBook(request,existingBookId);
+    }
+
+    @Override
+    public BookResponse undoChanges(Long existingBookId) {
+        return  bookAdapter.undoChanges(existingBookId);
+    }
+
 }

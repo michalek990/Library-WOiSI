@@ -4,8 +4,6 @@ import com.wp.library.Book.domain.adapter.BookAdapter;
 import com.wp.library.Book.domain.book.Book;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
-import com.wp.library.Book.domain.contract.ExportBookRequest;
-import com.wp.library.Book.domain.contract.ExportBookResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +57,22 @@ class BookServiceLoggingProxy implements BookAdapter {
     @Override
     public Iterator<Book> printAllBooks() {
         return null;
+    }
+
+    @Override
+    public BookResponse editBook(BookRequest request, Long existingBookId) {
+        log.info("Edit existing book");
+        BookResponse response = bookService.editBook(request, existingBookId);
+        log.info("Book edited");
+        return response;
+    }
+
+    @Override
+    public BookResponse undoChanges(Long existingBookId) {
+        log.info("Undo last changes");
+        BookResponse response = bookService.undoChanges(existingBookId);
+        log.info("Changes reverted");
+        return response;
     }
 
 }

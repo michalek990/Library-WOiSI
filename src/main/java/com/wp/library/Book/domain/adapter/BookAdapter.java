@@ -13,4 +13,7 @@ public interface BookAdapter {
     BookResponse createCloneEbook(BookRequest request, Long existingEBookId);
     BookResponse createClonePrintedBook(BookRequest request, Long existingPrintedBookId);
     Iterator<Book> printAllBooks();
+    BookResponse editBook(BookRequest request, Long existingBookId);
+    BookResponse undoChanges(Long existingBookId);
+
 }

@@ -1,5 +1,6 @@
 package com.wp.library.Book.domain.contract.resource;
 
+import com.wp.library.Book.domain.book.Book;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.contract.ExportBookRequest;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static com.wp.library.shared.ApplicationMappings.BOOK_URL;
@@ -26,6 +28,8 @@ public interface BookResource {
     String CLONE_EBOOK_URL = "/clone/ebook";
     String CLONE_PRINTED_URL = "/clone/printed-book";
     String EXPORT_BOOKS = "/export-books";
+    String EDIT_BOOK = "/edit";
+    String UNDO_CHANGES = "/undo";
 
     String JSON = MediaType.APPLICATION_JSON_VALUE;
 
@@ -142,4 +146,42 @@ public interface BookResource {
                     content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
     })
     ResponseEntity<byte[]> exportBooks(@Valid ExportBookRequest request);
+
+    @PutMapping(EDIT_BOOK)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Edit existing book")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully editing book",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = BookResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authentication failed",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    BookResponse editBook(@Valid BookRequest request, Long existingBookId);
+
+    @PostMapping(UNDO_CHANGES)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Undo editing book")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully editing book",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = BookResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authentication failed",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error",
+                    content = @Content(mediaType = JSON, schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    BookResponse undoChanges(Long existingBookId);
 }
