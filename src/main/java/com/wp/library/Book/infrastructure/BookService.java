@@ -7,19 +7,15 @@ import com.wp.library.Book.domain.book.PrintedBook;
 import com.wp.library.Book.domain.contract.BookRequest;
 import com.wp.library.Book.domain.contract.BookResponse;
 import com.wp.library.Book.domain.exception.BookException;
-import com.wp.library.Book.domain.contract.ExportBookRequest;
-import com.wp.library.Book.domain.contract.ExportBookResponse;
+import com.wp.library.Book.domain.memento.BookEditor;
+import com.wp.library.Book.domain.memento.BookOriginator;
 import com.wp.library.Book.infrastructure.jpa.BookJpaRepository;
-import com.wp.library.shared.exporter.DataExporter;
-import com.wp.library.shared.exporter.ExporterFactory;
-import com.wp.library.shared.exporter.ExporterType;
-import com.wp.library.shared.exporter.FileExporter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.Iterator;
 import java.util.List;
 
+import static com.wp.library.Book.domain.exception.BookErrorCode.BOOK_NOT_FOUND;
 import static com.wp.library.Book.domain.exception.BookErrorCode.EBOOK_NOT_FOUND;
 import static com.wp.library.Book.domain.exception.BookErrorCode.PRINTED_BOOK_NOT_FOUND;
 
@@ -27,6 +23,7 @@ import static com.wp.library.Book.domain.exception.BookErrorCode.PRINTED_BOOK_NO
 @AllArgsConstructor
 class BookService implements BookAdapter {
     private final BookJpaRepository bookJpaRepository;
+    private final BookEditor bookEditor;
 
     @Override
     public BookResponse createBook(BookRequest request) {
@@ -78,6 +75,31 @@ class BookService implements BookAdapter {
         }
 
         return collection.iterator();
+    }
+
+    @Override
+    public BookResponse editBook(BookRequest request, Long existingBookId) {
+        Book book = bookJpaRepository.findById(existingBookId)
+                .orElseThrow(() -> new BookException(BOOK_NOT_FOUND, existingBookId));
+        BookOriginator originator = new BookOriginator(book);
+        bookEditor.saveSnapshot(originator);
+
+        book.setTitle(request.getTitle());
+        book.setDescription(request.getDescription());
+        book.setRate(request.getRate());
+        book.setIsbn(request.getIsbn());
+        bookJpaRepository.save(book);
+        return BookResponse.success();
+    }
+
+    @Override
+    public BookResponse undoChanges(Long existingBookId) {
+        Book book = bookJpaRepository.findById(existingBookId)
+                .orElseThrow(() -> new BookException(BOOK_NOT_FOUND, existingBookId));
+        BookOriginator bookOriginator = new BookOriginator(book);
+        bookEditor.restore(bookOriginator);
+        bookJpaRepository.save(bookOriginator.getBook());
+        return BookResponse.success();
     }
 
     @Override

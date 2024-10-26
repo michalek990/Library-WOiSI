@@ -56,4 +56,14 @@ public class BookController implements BookResource {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(response.content());
     }
+
+    @Override
+    public BookResponse editBook(@RequestBody BookRequest request, Long existingBookId) {
+        return libraryService.editBook(request,existingBookId);
+    }
+
+    @Override
+    public BookResponse undoChanges(Long existingBookId) {
+        return libraryService.undoChanges(existingBookId);
+    }
 }

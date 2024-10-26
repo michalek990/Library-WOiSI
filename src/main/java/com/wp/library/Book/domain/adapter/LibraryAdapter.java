@@ -11,4 +11,6 @@ public interface LibraryAdapter {
     BookResponse createBook(BookRequest request, BookType bookType);
     BookResponse cloneBook(BookRequest request, Long existingBookId, BookType bookType);
     ExportBookResponse exportBook(ExportBookRequest request);
+    BookResponse editBook(BookRequest request,Long existingBookId);
+    BookResponse undoChanges(Long existingBookId);
 }
